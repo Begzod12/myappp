@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Синапс",
+    "slug": "synapse",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#06090e",
+    "splash": {
+      "backgroundColor": "#06090e",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.synapse"
+    },
+    "android": {
+      "package": "com.example.synapse"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7014475b-1b84-416f-9a09-938a15b1c5ac"
+      }
+    }
+  }
+}

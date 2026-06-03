@@ -1,0 +1,21 @@
+{
+  "name": "synapse",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios"
+  },
+  "dependencies": {
+    "expo": "~52.0.0",
+    "expo-gl": "~15.0.2",
+    "expo-status-bar": "~2.0.0",
+    "expo-three": "^8.0.0",
+    "three": "0.166.1",
+    "@react-native-async-storage/async-storage": "1.23.1",
+    "react": "18.3.1",
+    "react-native": "0.76.5"
+  },
+  "private": true
+}

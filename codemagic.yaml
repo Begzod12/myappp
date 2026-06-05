@@ -1,0 +1,18 @@
+workflows:
+  ios-build:
+    name: iOS Build
+    environment:
+      ios_signing:
+        distribution_type: development
+      xcode: latest
+    scripts:
+      - name: Install npm dependencies
+        script: npm install
+      - name: Build iOS app
+        script: |
+          npx expo prebuild --clean
+          cd ios
+          xcodebuild -workspace myapp.xcworkspace -scheme myapp -sdk iphoneos -configuration Release -archivePath build/app.xcarchive archive CODE_SIGNING_ALLOWED=NO
+          xcodebuild -exportArchive -archivePath build/app.xcarchive -exportPath build -exportOptionsPlist /dev/null CODE_SIGNING_ALLOWED=NO
+    artifacts:
+      - ios/build/*.ipa

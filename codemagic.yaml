@@ -2,8 +2,6 @@ workflows:
   ios-build:
     name: iOS Build
     environment:
-      ios_signing:
-        distribution_type: development
       xcode: latest
     scripts:
       - name: Install npm dependencies

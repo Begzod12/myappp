@@ -1,4 +1,4 @@
-name: Build iOS App
+name: Build IPA
 
 on:
   push:
@@ -11,18 +11,30 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      
       - name: Install dependencies
         run: npm install
       
-      - name: Build iOS app
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
+      
+      - name: Prebuild iOS
+        run: npx expo prebuild --platform ios --clean --no-install
+      
+      - name: Build and export without signing
         run: |
-          npx expo prebuild --clean
           cd ios
-          xcodebuild -workspace myapp.xcworkspace -scheme myapp -sdk iphoneos -configuration Release archive -archivePath ./build/myapp.xcarchive
-          xcodebuild -exportArchive -archivePath ./build/myapp.xcarchive -exportPath ./build -exportOptionsPlist exportOptions.plist
+          xcodebuild -workspace *.xcworkspace -scheme myapp -configuration Release -sdk iphoneos build CODE_SIGNING_ALLOWED="NO"
+          mkdir -p Payload
+          cp -r build/Release-iphoneos/myapp.app Payload/
+          zip -r myapp.ipa Payload/
       
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: myapp.ipa
-          path: ./build/*.ipa
+          name: myapp-unsigned.ipa
+          path: ios/myapp.ipa

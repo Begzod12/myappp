@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Install Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -19,22 +19,25 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: Install Expo CLI
-        run: npm install -g expo-cli
+      - name: Generate iOS project (on macOS)
+        run: |
+          npx expo prebuild --platform ios --clean
+          ls -la ios/
       
-      - name: Prebuild iOS
-        run: npx expo prebuild --platform ios --clean --no-install
-      
-      - name: Build and export without signing
+      - name: Build without signing
         run: |
           cd ios
-          xcodebuild -workspace *.xcworkspace -scheme myapp -configuration Release -sdk iphoneos build CODE_SIGNING_ALLOWED="NO"
+          xcodebuild build -workspace *.xcworkspace -scheme myapp -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO
+          
+      - name: Create IPA
+        run: |
+          cd ios/build/Release-iphoneos
           mkdir -p Payload
-          cp -r build/Release-iphoneos/myapp.app Payload/
+          cp -r myapp.app Payload/
           zip -r myapp.ipa Payload/
-      
+          
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: myapp-unsigned.ipa
-          path: ios/myapp.ipa
+          name: myapp.ipa
+          path: ios/build/Release-iphoneos/myapp.ipa

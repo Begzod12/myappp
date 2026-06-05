@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm install
       
-      - name: Generate iOS project (on macOS)
+      - name: Generate iOS project
         run: |
           npx expo prebuild --platform ios --clean
           ls -la ios/
@@ -28,14 +28,14 @@ jobs:
         run: |
           cd ios
           xcodebuild build -workspace *.xcworkspace -scheme myapp -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO
-          
+      
       - name: Create IPA
         run: |
           cd ios/build/Release-iphoneos
           mkdir -p Payload
           cp -r myapp.app Payload/
           zip -r myapp.ipa Payload/
-          
+      
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:

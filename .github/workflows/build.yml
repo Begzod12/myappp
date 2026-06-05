@@ -30,17 +30,17 @@ jobs:
       - name: Build without signing
         run: |
           cd ios
-          xcodebuild build -workspace *.xcworkspace -scheme myapp -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO
+          xcodebuild build -workspace Sinaps.xcworkspace -scheme Sinaps -configuration Release -sdk iphoneos CODE_SIGNING_ALLOWED=NO
       
       - name: Create IPA
         run: |
           cd ios/build/Release-iphoneos
           mkdir -p Payload
-          cp -r myapp.app Payload/
-          zip -r myapp.ipa Payload/
+          cp -r Sinaps.app Payload/
+          zip -r Sinaps.ipa Payload/
       
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: myapp.ipa
-          path: ios/build/Release-iphoneos/myapp.ipa
+          name: Sinaps.ipa
+          path: ios/build/Release-iphoneos/Sinaps.ipa
